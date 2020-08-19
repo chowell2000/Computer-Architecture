@@ -40,9 +40,11 @@ class CPU:
         else:
             raise Exception("Unsupported ALU operation")
 
-    def ram_write(self, MAR, DMR):
+    def ram_write(self, MAR, MDR):
+        pass
 
-    def ram_read(self, DMR):
+    def ram_read(self, MAR):
+
         pass
 
     def trace(self):
