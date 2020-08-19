@@ -39,6 +39,9 @@ class CPU:
         #elif op == "SUB": etc
         else:
             raise Exception("Unsupported ALU operation")
+
+    def ram_write(self, MAR, DMR):
+
     def ram_read(self, DMR):
         pass
 
