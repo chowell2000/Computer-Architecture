@@ -7,15 +7,22 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        self.R = [0] * 8
-        self.R[7] = 0xF4
+        self.R0 = 0
+        self.R1 = 0
+        self.R2 = 0
+        self.R3 = 0
+        self.R4 = 0
+        self.R5 = 0
+        self.R6 = 0
+        self.R7 = 0xF4
         self.FL = 0
         self.PC = 0
         self.RAM = [0] * 0xFF
 
-        print(self.R)
-        print(self.FL)
-        print(len(self.RAM))
+        # print(self.R7)
+        # print(self.R3)
+        # print(self.FL)
+        # print(len(self.RAM))
 
         pass
 
@@ -50,12 +57,13 @@ class CPU:
         else:
             raise Exception("Unsupported ALU operation")
 
-    def ram_write(self, MAR, MDR):
-        pass
-
     def ram_read(self, MAR):
+        return self.RAM[MAR]
 
-        pass
+
+    def ram_write(self, MAR, MDR):
+        self.RAM[MAR] = MDR
+        return
 
     def trace(self):
         """
