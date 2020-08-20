@@ -27,6 +27,7 @@ class CPU:
 
         if len(sys.argv) != 2:
             print("Program file name needed")
+            return
         try:
             with open(sys.argv[1]) as f:
                 for line in f:
@@ -41,6 +42,7 @@ class CPU:
                     # print(f"{x:08b}: {x:d}")
         except:
             print('Program file not found')
+            return
         # address = 0
 
         # For now, we've just hardcoded a program:
@@ -100,12 +102,15 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
+        ADD = 0xA0
+        CALL = 0x50
         HLT = 0x01
         LDI = 0b10000010
         PRN = 0x47
         MUL = 0b10100010
         PUSH = 0x45
         POP = 0x46
+        RET = 0x11
 
 
 
@@ -133,14 +138,26 @@ class CPU:
                 self.ram_write(operand_a, in_a * in_b)
                 self.pc += 3
             elif ir == PUSH:
-                self.sp -= 1
+                self.reg[7] -= 1
                 value = self.ram_read(operand_a)
-                self.ram_write(self.sp, value)
+                self.ram_write(self.reg[7], value)
                 self.pc += 2
             elif ir == POP:
-                value = self.ram_read(self.sp)
+                value = self.ram_read(self.reg[7])
                 self.ram_write(operand_a, value)
-                self.sp += 1
+                self.reg[7] += 1
                 self.pc += 2
+            elif ir == CALL:
+                self.reg[7] -= 1
+                self.ram_write(self.reg[7], self.pc + 2)
+                self.pc = self.ram_read(operand_a)
+            elif ir == RET:
+                self.pc = self.ram_read(self.reg[7])
+                self.reg[7] += 1
+            elif ir == ADD:
+                value = self.ram_read(operand_a) + self.ram_read(operand_b)
+                self.ram_write(operand_a, value)
+                self.pc += 3
+                # print(value)
 
         return
