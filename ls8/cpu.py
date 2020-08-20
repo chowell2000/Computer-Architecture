@@ -7,6 +7,16 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
+        self.R = [0] * 8
+        self.R[7] = 0xF4
+        self.FL = 0
+        self.PC = 0
+        self.RAM = [0] * 0xFF
+
+        print(self.R)
+        print(self.FL)
+        print(len(self.RAM))
+
         pass
 
     def load(self):
