@@ -103,7 +103,7 @@ class CPU:
     def run(self):
         """Run the CPU."""
         ADD = 0xA0
-        ADDI =
+        ADDI = 0xFF
         CALL = 0x50
         CMP = 0xA7
         HLT = 0x01
@@ -188,5 +188,8 @@ class CPU:
                     self.pc = self.ram_read(operand_a)
                 else:
                     self.pc += 2
+            elif ir == ADDI:
+                value = self.ram_read(operand_a) + operand_b
+                self.ram_write(operand_a, value)
 
         return
