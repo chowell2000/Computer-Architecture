@@ -103,6 +103,7 @@ class CPU:
     def run(self):
         """Run the CPU."""
         ADD = 0xA0
+        ADDI =
         CALL = 0x50
         CMP = 0xA7
         HLT = 0x01
