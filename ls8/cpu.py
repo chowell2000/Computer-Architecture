@@ -104,7 +104,11 @@ class CPU:
         """Run the CPU."""
         ADD = 0xA0
         CALL = 0x50
+        CMP = 0xA7
         HLT = 0x01
+        JMP = 0x54
+        JEQ = 0x55
+        JNE = 0x56
         LDI = 0b10000010
         PRN = 0x47
         MUL = 0b10100010
@@ -159,5 +163,29 @@ class CPU:
                 self.ram_write(operand_a, value)
                 self.pc += 3
                 # print(value)
+            elif ir == JMP:
+                self.pc = self.ram_read(operand_a)
+            elif ir == CMP:
+                value_a = self.ram_read(operand_a)
+                value_b = self.ram_read(operand_b)
+                if value_a == value_b:
+                    self.fl = 0b00000001
+                elif value_a > value_b:
+                    self.fl = 0b00000100
+                elif value_b > value_a:
+                    self.fl = 0b00000010
+                else:
+                    self.fl = 0
+                self.pc += 3
+            elif ir == JEQ:
+                if self.fl == 0b00000001:
+                    self.pc = self.ram_read(operand_a)
+                else:
+                    self.pc += 2
+            elif ir == JNE:
+                if self.fl != 0b00000001:
+                    self.pc = self.ram_read(operand_a)
+                else:
+                    self.pc += 2
 
         return
